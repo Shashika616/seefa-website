@@ -190,7 +190,7 @@ const Solutions = memo(function Solutions() {
             >
               <Sparkles size={22} className="text-brand-purple" />
               <p className="font-semibold">Need something custom?</p>
-              <p className="text-sm">We design and build to order — tell us your workflow.</p>
+              <p className="text-sm">We design and build to order, tell us your workflow.</p>
             </a>
           </div>
         </div>

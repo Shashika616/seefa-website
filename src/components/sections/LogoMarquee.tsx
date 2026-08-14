@@ -1,18 +1,37 @@
+"use client";
+import { memo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { TECH } from "@/lib/constants";
 
-export default function LogoMarquee() {
-  const row = [...TECH, ...TECH];
+const LogoMarquee = memo(function LogoMarquee() {
+  const prefersReducedMotion = useReducedMotion();
+  const row = [...TECH, ...TECH]; // duplicate once for a seamless -50% loop
+
   return (
-    <section aria-label="Technologies we work with" className="relative py-14 border-y border-slate-900/5 overflow-hidden">
-      <div className="flex w-max animate-marquee">
-        {row.map((t, i) => (
-          <span key={i} className="mr-12 md:mr-20 text-lg md:text-2xl font-display font-semibold text-ink/20 whitespace-nowrap">
+    <section
+      aria-label="Technologies we work with"
+      className="relative py-14 border-y border-slate-900/5 overflow-hidden"
+    >
+      <motion.div
+        className="flex w-max"
+        animate={prefersReducedMotion ? undefined : { x: ["0%", "-50%"] }}
+        transition={{ duration: 30, ease: "linear", repeat: Infinity }}
+      >
+        {row.map((t: string, i: number) => (
+          <span
+            key={i}
+            className="mr-12 md:mr-20 text-lg md:text-2xl font-display font-semibold text-ink/20 whitespace-nowrap"
+          >
             {t}
           </span>
         ))}
-      </div>
+      </motion.div>
+
+      {/* Edge fades */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-bg to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-bg to-transparent" />
     </section>
   );
-}
+});
+
+export default LogoMarquee;
