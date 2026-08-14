@@ -1,21 +1,13 @@
 "use client";
-import { useState, useEffect, useCallback, memo } from "react";
+import { useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Menu, X, Lock } from "lucide-react";
-import { cn, debounce } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { NAV_LINKS } from "@/lib/constants";
 
 const Navbar = memo(function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const handleScroll = useCallback(debounce(() => setScrolled(window.scrollY > 50), 100), []);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
 
   const Logo = (
     <a href="#" className="flex items-center gap-2" aria-label="Seefa IT home">
@@ -36,14 +28,18 @@ const Navbar = memo(function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
-        "fixed top-0 md:top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-50 w-full md:w-[95%] md:max-w-5xl md:rounded-full transition-colors duration-300",
-        (scrolled || open) ? "glass shadow-lg shadow-slate-900/5" : "bg-transparent"
+        "fixed top-0 md:top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-50 w-full md:w-[95%] md:max-w-5xl md:rounded-full",
+        // Mobile: fully solid white + bottom border for definition
+        "bg-white border-b border-slate-900/5",
+        // Desktop: frosted glass pill
+        // "md:border-b-0 md:bg-white/70 md:backdrop-blur-xl",
+        "shadow-lg shadow-slate-900/5"
       )}
     >
       <div className="flex items-center justify-between px-4 md:px-6 py-4 md:py-3">
         {Logo}
 
-        {/* Desktop links — bigger, bolder, darker + gradient underline sweep */}
+        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link: string) => (
             <a
@@ -78,6 +74,7 @@ const Navbar = memo(function Navbar() {
         </div>
       </div>
 
+      {/* Mobile dropdown — sits on the solid white nav, fully opaque */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -85,10 +82,9 @@ const Navbar = memo(function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden border-t border-slate-900/5 overflow-hidden"
+            className="md:hidden bg-white border-t border-slate-900/5 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-4">
-              {/* Mobile links — bolder and darker too */}
               {NAV_LINKS.map((link: string) => (
                 <a
                   key={link}
