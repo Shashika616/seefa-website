@@ -1,5 +1,5 @@
 "use client";
-import { useState, memo } from "react";
+import { useState, memo, useCallback, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Menu, X, Lock } from "lucide-react";
@@ -8,6 +8,22 @@ import { NAV_LINKS } from "@/lib/constants";
 
 const Navbar = memo(function Navbar() {
   const [open, setOpen] = useState(false);
+
+  // Programmatic navigation — works identically on touch & desktop browsers
+  const handleNavClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>, id: string) => {
+      e.preventDefault();          // stop the flaky native hash jump
+      setOpen(false);              // close mobile menu first
+      window.setTimeout(() => {    // let the menu close, then scroll
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          window.history.replaceState(null, "", `#${id}`); // keep URL in sync
+        }
+      }, 60);
+    },
+    []
+  );
 
   const Logo = (
     <a href="#" className="flex items-center gap-2" aria-label="Seefa IT home">
@@ -29,9 +45,7 @@ const Navbar = memo(function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
         "fixed top-0 md:top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-50 w-full md:w-[95%] md:max-w-5xl md:rounded-full",
-        // Mobile: fully solid white + bottom border for definition
         "bg-white border-b border-slate-900/5",
-        // Desktop: frosted glass pill
         // "md:border-b-0 md:bg-white/70 md:backdrop-blur-xl",
         "shadow-lg shadow-slate-900/5"
       )}
@@ -45,6 +59,7 @@ const Navbar = memo(function Navbar() {
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
+              onClick={(e) => handleNavClick(e, link.toLowerCase())}
               className="relative text-[15px] font-semibold text-slate-800 transition-colors hover:text-ink focus:outline-none focus:ring-2 focus:ring-brand-purple rounded
                 after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:rounded-full
                 after:bg-gradient-to-r after:from-brand-purple after:to-brand-blue
@@ -74,7 +89,7 @@ const Navbar = memo(function Navbar() {
         </div>
       </div>
 
-      {/* Mobile dropdown — sits on the solid white nav, fully opaque */}
+      {/* Mobile dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -89,7 +104,7 @@ const Navbar = memo(function Navbar() {
                 <a
                   key={link}
                   href={`#${link.toLowerCase()}`}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.toLowerCase())}
                   className="block text-lg font-semibold text-slate-800 hover:text-ink py-2"
                 >
                   {link}
