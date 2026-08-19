@@ -81,26 +81,26 @@ const Services = memo(function Services() {
 
   return (
     <section aria-label="Our services">
-      {/* Section intro — reduced padding to close the gap */}
+      {/* Section intro — reframed as custom-development capability */}
       <div
         id="services"
         className="pt-24 lg:pt-28 pb-8 md:pb-10 px-4 sm:px-6"
       >
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
-            What We Do
+            Custom Development
           </p>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
-            Services that <span className="text-gradient">scale</span> with you.
+            Need something <span className="text-gradient">beyond off-the-shelf</span>?
           </h2>
           <p className="text-slate-600 max-w-2xl text-base sm:text-lg leading-relaxed">
-            End-to-end software engineering from bespoke applications to strategic
-            consultancy. Four disciplines, one team, all tailored to your business.
+            The same team behind our products designs and builds custom web, mobile and
+            enterprise software tailored to the way you work.
           </p>
         </div>
       </div>
 
-      {/* Sticky service cards — now shorter and closer to the intro */}
+      {/* Sticky service cards */}
       {SERVICES.map((s: Service, i: number) => (
         <ServiceCard
           key={s.id}

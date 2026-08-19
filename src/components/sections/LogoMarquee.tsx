@@ -1,17 +1,14 @@
 "use client";
 import { memo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { TECH } from "@/lib/constants";
+import { TECH_STACK } from "@/lib/constants";
 
 const LogoMarquee = memo(function LogoMarquee() {
   const prefersReducedMotion = useReducedMotion();
-  const row = [...TECH, ...TECH]; // duplicate once for a seamless -50% loop
+  const row = [...TECH_STACK, ...TECH_STACK]; // duplicate for seamless loop
 
   return (
-    <section
-      aria-label="Technologies we work with"
-      className="relative py-14 border-y border-slate-900/5 overflow-hidden"
-    >
+    <section aria-label="Technologies we work with" className="relative py-14 border-y border-slate-900/5 overflow-hidden bg-white/60">
       <motion.div
         className="flex w-max"
         animate={prefersReducedMotion ? undefined : { x: ["0%", "-50%"] }}

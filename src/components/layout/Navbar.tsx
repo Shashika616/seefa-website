@@ -1,5 +1,5 @@
 "use client";
-import { useState, memo, useCallback, type MouseEvent } from "react";
+import { useState, useEffect, useCallback, memo, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Menu, X, Lock } from "lucide-react";
@@ -8,28 +8,43 @@ import { NAV_LINKS } from "@/lib/constants";
 
 const Navbar = memo(function Navbar() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
 
-  // Programmatic navigation — works identically on touch & desktop browsers
-  const handleNavClick = useCallback(
-    (e: MouseEvent<HTMLAnchorElement>, id: string) => {
-      e.preventDefault();          // stop the flaky native hash jump
-      setOpen(false);              // close mobile menu first
-      window.setTimeout(() => {    // let the menu close, then scroll
-        const el = document.getElementById(id);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-          window.history.replaceState(null, "", `#${id}`); // keep URL in sync
-        }
-      }, 60);
-    },
-    []
-  );
+  // Scrollspy — highlights the section currently in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+    );
+    NAV_LINKS.forEach((link) => {
+      const el = document.getElementById(link.toLowerCase());
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const handleNavClick = useCallback((e: MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setOpen(false);
+    setActive(id); // instant feedback, even before the scroll lands
+    window.setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", `#${id}`);
+      }
+    }, 60);
+  }, []);
 
   const Logo = (
-    <a href="#" className="flex items-center gap-2" aria-label="Seefa IT home">
+    <a href="#" className="flex items-center gap-2" aria-label="Seefa Business Solutions home">
       <Image
         src="/images/seefa-logo.png"
-        alt="Seefa IT Solutions"
+        alt="Seefa Business Solutions"
         width={140}
         height={40}
         priority
@@ -46,29 +61,34 @@ const Navbar = memo(function Navbar() {
       className={cn(
         "fixed top-0 md:top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-50 w-full md:w-[95%] md:max-w-5xl md:rounded-full",
         "bg-white border-b border-slate-900/5",
-        // "md:border-b-0 md:bg-white/70 md:backdrop-blur-xl",
+        "md:border-b-0 md:bg-white/70 md:backdrop-blur-xl",
         "shadow-lg shadow-slate-900/5"
       )}
     >
       <div className="flex items-center justify-between px-4 md:px-6 py-4 md:py-3">
         {Logo}
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link: string) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              onClick={(e) => handleNavClick(e, link.toLowerCase())}
-              className="relative text-[15px] font-semibold text-slate-800 transition-colors hover:text-ink focus:outline-none focus:ring-2 focus:ring-brand-purple rounded
-                after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:rounded-full
-                after:bg-gradient-to-r after:from-brand-purple after:to-brand-blue
-                after:scale-x-0 after:origin-left after:transition-transform after:duration-300
-                hover:after:scale-x-100"
-            >
-              {link}
-            </a>
-          ))}
+        {/* Desktop links — active section gets a solid pill */}
+        <div className="hidden md:flex items-center gap-2">
+          {NAV_LINKS.map((link: string) => {
+            const id = link.toLowerCase();
+            return (
+              <a
+                key={link}
+                href={`#${id}`}
+                onClick={(e) => handleNavClick(e, id)}
+                aria-current={active === id ? "page" : undefined}
+                className={cn(
+                  "px-4 py-2 rounded-full text-[15px] font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-purple",
+                  active === id
+                    ? "bg-ink text-white shadow-sm"
+                    : "text-slate-800 hover:bg-slate-900/5 hover:text-ink"
+                )}
+              >
+                {link}
+              </a>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-3">
@@ -89,7 +109,7 @@ const Navbar = memo(function Navbar() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile dropdown — active link gets a soft tinted background */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -99,20 +119,28 @@ const Navbar = memo(function Navbar() {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-white border-t border-slate-900/5 overflow-hidden"
           >
-            <div className="px-4 py-6 space-y-4">
-              {NAV_LINKS.map((link: string) => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  onClick={(e) => handleNavClick(e, link.toLowerCase())}
-                  className="block text-lg font-semibold text-slate-800 hover:text-ink py-2"
-                >
-                  {link}
-                </a>
-              ))}
+            <div className="px-4 py-6 space-y-2">
+              {NAV_LINKS.map((link: string) => {
+                const id = link.toLowerCase();
+                return (
+                  <a
+                    key={link}
+                    href={`#${id}`}
+                    onClick={(e) => handleNavClick(e, id)}
+                    className={cn(
+                      "block text-lg font-semibold py-2.5 px-3 rounded-xl transition-colors",
+                      active === id
+                        ? "text-brand-purple bg-brand-purple/10"
+                        : "text-slate-800 hover:text-ink hover:bg-slate-900/5"
+                    )}
+                  >
+                    {link}
+                  </a>
+                );
+              })}
               <a
                 href="#client-login"
-                className="w-full bg-orange-400 text-white font-semibold px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors"
+                className="w-full bg-orange-400 text-white font-semibold px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors mt-4"
               >
                 <Lock size={16} /> Client Login
               </a>

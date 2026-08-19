@@ -7,9 +7,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swa
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Seefa IT Solutions | Custom Software Development & Consultancy",
-  description: "Quality software solutions for inventory, sales, customer management, and business-critical functions. Based in Kotte, Sri Lanka.",
-  openGraph: { title: "Seefa IT Solutions", description: "Take your right decision.", type: "website" },
+  title: "Seefa Business Solutions | ERP, POS & Business Software — Sri Lanka",
+  description: "Business software built around your business since 1999. ERP, POS, payroll, inventory and industry-specific solutions for private & government sectors across Sri Lanka.",
+  openGraph: { title: "Seefa Business Solutions", description: "ERP, POS & business software since 1999.", type: "website" },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#FDFCFB" };

@@ -61,10 +61,7 @@ export default function Footer() {
         </p>
 
         {/* Email CTA */}
-        <a
-          href="mailto:info@Seefalk.com"
-          className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange mb-8"
-        >
+        <a href="mailto:info@Seefalk.com" className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange mb-16">
           info@Seefalk.com <ArrowUpRight size={18} />
         </a>
 
@@ -105,7 +102,7 @@ export default function Footer() {
             <div className="mb-4">
               <Image
                 src="/images/seefa-logo.png"
-                alt="Seefa IT Solutions"
+                alt="Seefa Business Solutions"
                 width={140}
                 height={40}
                 className="h-10 w-auto object-contain"
@@ -176,7 +173,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="relative border-t border-slate-900/5">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 text-center text-sm text-slate-500">
-          <span>© 2026 Seefa IT Solutions. All rights reserved.</span>
+          <span>© 2026 Seefa Business Solutions. All rights reserved.</span>
         </div>
       </div>
     </footer>

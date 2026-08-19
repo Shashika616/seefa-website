@@ -9,15 +9,6 @@ export interface Service {
   glow: string;
 }
 
-export interface CaseStudy {
-  id: number;
-  title: string;
-  category: string;
-  metric: string;
-  description: string;
-  gradient: string;
-}
-
 export type SolutionCategory = "ERP & Finance" | "Retail & POS" | "HR & Payroll" | "Industry";
 
 export interface Solution {
@@ -28,4 +19,21 @@ export interface Solution {
   icon: string;
   badge?: "NEW" | "FEATURED";
   modules?: string[];
+}
+
+export interface Industry {
+  id: number;
+  name: string;
+  icon: string;
+  items: string[];
+}
+
+export interface Screenshot {
+  src: string;
+  label: string;
+}
+
+export interface ClientLogo {
+  src: string;
+  name: string;
 }

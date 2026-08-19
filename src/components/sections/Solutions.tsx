@@ -143,15 +143,15 @@ const Solutions = memo(function Solutions() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section id="work" aria-label="Our solutions" className="relative py-20 md:py-28">
+      <section id="solutions" aria-label="Our solutions" className="relative py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-10">
-            <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Our Work</p>
+            <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Our Solutions</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
-              Solutions in <span className="text-gradient">production</span>.
+              One company. <span className="text-gradient">Complete business solutions</span>.
             </h2>
             <p className="text-slate-600">
-              Real systems running real businesses. Pick a ready-made solution or ask us to build yours.
+              Ready-made systems running real businesses today. Pick a ready-made solution or ask us to build yours.
             </p>
           </div>
 
