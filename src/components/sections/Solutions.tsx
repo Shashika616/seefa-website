@@ -143,7 +143,6 @@ const Solutions = memo(function Solutions() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section id="solutions" aria-label="Our solutions" className="relative py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-10">
             <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Our Solutions</p>
@@ -194,7 +193,6 @@ const Solutions = memo(function Solutions() {
             </a>
           </div>
         </div>
-      </section>
     </MotionConfig>
   );
 });

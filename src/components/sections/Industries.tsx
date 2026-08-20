@@ -8,7 +8,6 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function Industries() {
   return (
-    <section id="industries" className="relative py-20 md:py-28 bg-white/60 border-y border-slate-900/5">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="max-w-2xl mb-12">
           <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Industries</p>
@@ -37,6 +36,5 @@ export default function Industries() {
           })}
         </div>
       </div>
-    </section>
   );
 }

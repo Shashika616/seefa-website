@@ -81,11 +81,8 @@ const Services = memo(function Services() {
 
   return (
     <section aria-label="Our services">
-      {/* Section intro — reframed as custom-development capability */}
-      <div
-        id="services"
-        className="pt-24 lg:pt-28 pb-8 md:pb-10 px-4 sm:px-6"
-      >
+      {/* Section intro with top padding for navbar clearance */}
+      <div className="pt-24 lg:pt-28 pb-8 md:pb-10 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
             Custom Development
@@ -100,7 +97,7 @@ const Services = memo(function Services() {
         </div>
       </div>
 
-      {/* Sticky service cards */}
+      {/* Sticky service cards with scroll animation */}
       {SERVICES.map((s: Service, i: number) => (
         <ServiceCard
           key={s.id}
@@ -112,6 +109,8 @@ const Services = memo(function Services() {
           setRef={(el) => { refs[i].current = el; }}
         />
       ))}
+      
+      {/* Bottom spacer */}
       <div className="h-[20vh] sm:h-[30vh]" />
     </section>
   );

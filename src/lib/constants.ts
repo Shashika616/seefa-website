@@ -1,4 +1,4 @@
-import type { Service, Solution, SolutionCategory, Industry, Screenshot } from "@/types";
+import type { Service, Solution, SolutionCategory, Industry, Screenshot, HeroSlide, Testimonial } from "@/types";
 
 export const NAV_LINKS = ["Solutions", "Industries", "Services", "About", "Contact"];
 
@@ -23,15 +23,7 @@ export const WHY_US = [
   "Ongoing maintenance and long-term support",
 ];
 
-/* ── ADD REAL SCREENSHOTS HERE ─────────────────────────────
-   1. Drop files into /public/images/screenshots/
-   2. Add entries below, e.g.:
-      { src: "/images/screenshots/erp-dashboard.png", label: "Dashboard" }
-   The Featured ERP section switches from mockups to your real images automatically. */
 export const ERP_SCREENSHOTS: Screenshot[] = [];
-
-/* Client logos need no manual list anymore — Clients.tsx scans
-   /public/images/clients/ automatically at build time. */
 
 export const INDUSTRIES: Industry[] = [
   { id: 1, name: "Retail & POS", icon: "cart", items: ["POS", "Inventory", "Purchasing", "Sales"] },
@@ -66,4 +58,53 @@ export const SOLUTIONS: Solution[] = [
   { id: 10, title: "Tours & Travels Business Solutions", description: "Bookings, itineraries, vehicles and invoicing for travel agencies.", category: "Industry", icon: "plane" },
   { id: 11, title: "General Ledger Control System", description: "Complete ledger control with accurate, audit-ready books.", category: "ERP & Finance", icon: "book" },
   { id: 12, title: "Payroll with EPF / ETF & E-Banking", description: "Automated payroll with Sri Lankan EPF/ETF processing and bank file generation.", category: "HR & Payroll", icon: "banknote" },
+];
+
+export const HERO_SLIDES: HeroSlide[] = [
+  {
+    tag: "Since 1999 · Sri Lanka",
+    title: "Business software built around",
+    highlight: "your business.",
+    description: "Powerful ERP, POS, payroll, inventory and accounting developed and supported in Sri Lanka for over 25 years.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80",
+  },
+  {
+    tag: "Complete ERP Suite",
+    title: "One system.",
+    highlight: "Every department.",
+    description: "Sales, inventory, finance and production connected so your whole company works from the same live data.",
+    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=2000&q=80",
+  },
+  {
+    tag: "Retail & POS",
+    title: "Run your store",
+    highlight: "at full speed.",
+    description: "Fast billing, live stock and daily reports that keep your team ahead of the queue.",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=2000&q=80",
+  },
+  {
+    tag: "Payroll & HR",
+    title: "Payroll, EPF / ETF",
+    highlight: "handled.",
+    description: "Automated payroll with Sri Lankan statutory processing and e-banking, ready in one click.",
+    image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=2000&q=80",
+  },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote: "Their POS and inventory system runs our entire chain. Downtime is practically zero, and support answers before we finish calling.",
+    role: "Managing Director, Retail Chain",
+    location: "Colombo",
+  },
+  {
+    quote: "The ERP implementation paid for itself within the first year. Our accounts close in days now, not weeks.",
+    role: "Finance Manager, Manufacturing Company",
+    location: "Katunayake",
+  },
+  {
+    quote: "Payroll with EPF and ETF used to take three staff a full week. Now it's one click and a bank file.",
+    role: "Operations Head, Logistics Company",
+    location: "Kandy",
+  },
 ];

@@ -1,47 +1,27 @@
 "use client";
-import { useState, useEffect, useCallback, memo, type MouseEvent } from "react";
+import { useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS } from "@/lib/constants";
+
+const NAV_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "Industries", href: "/industries" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
 
 const Navbar = memo(function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("");
-
-  // Scrollspy — highlights the section currently in view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
-    );
-    NAV_LINKS.forEach((link) => {
-      const el = document.getElementById(link.toLowerCase());
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  const handleNavClick = useCallback((e: MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    setOpen(false);
-    setActive(id); // instant feedback, even before the scroll lands
-    window.setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        window.history.replaceState(null, "", `#${id}`);
-      }
-    }, 60);
-  }, []);
+  const pathname = usePathname();
 
   const Logo = (
-    <a href="#" className="flex items-center gap-2" aria-label="Seefa Business Solutions home">
+    <Link href="/" className="flex items-center gap-2" aria-label="Seefa Business Solutions home">
       <Image
         src="/images/seefa-logo.png"
         alt="Seefa Business Solutions"
@@ -50,7 +30,7 @@ const Navbar = memo(function Navbar() {
         priority
         className="h-8 w-auto object-contain"
       />
-    </a>
+    </Link>
   );
 
   return (
@@ -68,36 +48,34 @@ const Navbar = memo(function Navbar() {
       <div className="flex items-center justify-between px-4 md:px-6 py-4 md:py-3">
         {Logo}
 
-        {/* Desktop links — active section gets a solid pill */}
+        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-2">
-          {NAV_LINKS.map((link: string) => {
-            const id = link.toLowerCase();
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href;
             return (
-              <a
-                key={link}
-                href={`#${id}`}
-                onClick={(e) => handleNavClick(e, id)}
-                aria-current={active === id ? "page" : undefined}
+              <Link
+                key={link.label}
+                href={link.href}
                 className={cn(
                   "px-4 py-2 rounded-full text-[15px] font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-purple",
-                  active === id
+                  isActive
                     ? "bg-ink text-white shadow-sm"
                     : "text-slate-800 hover:bg-slate-900/5 hover:text-ink"
                 )}
               >
-                {link}
-              </a>
+                {link.label}
+              </Link>
             );
           })}
         </div>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#client-login"
+          <Link
+            href="/client-login"
             className="hidden md:inline-flex bg-orange-400 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-orange-500 transition-colors items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
           >
             <Lock size={14} /> Client Login
-          </a>
+          </Link>
           <button
             onClick={() => setOpen((v) => !v)}
             className="md:hidden p-2 hover:bg-slate-900/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple"
@@ -109,7 +87,7 @@ const Navbar = memo(function Navbar() {
         </div>
       </div>
 
-      {/* Mobile dropdown — active link gets a soft tinted background */}
+      {/* Mobile dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -120,30 +98,31 @@ const Navbar = memo(function Navbar() {
             className="md:hidden bg-white border-t border-slate-900/5 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-2">
-              {NAV_LINKS.map((link: string) => {
-                const id = link.toLowerCase();
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href;
                 return (
-                  <a
-                    key={link}
-                    href={`#${id}`}
-                    onClick={(e) => handleNavClick(e, id)}
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
                     className={cn(
                       "block text-lg font-semibold py-2.5 px-3 rounded-xl transition-colors",
-                      active === id
+                      isActive
                         ? "text-brand-purple bg-brand-purple/10"
                         : "text-slate-800 hover:text-ink hover:bg-slate-900/5"
                     )}
                   >
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 );
               })}
-              <a
-                href="#client-login"
+              <Link
+                href="/client-login"
+                onClick={() => setOpen(false)}
                 className="w-full bg-orange-400 text-white font-semibold px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors mt-4"
               >
                 <Lock size={16} /> Client Login
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

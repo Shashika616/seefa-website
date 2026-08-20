@@ -37,3 +37,17 @@ export interface ClientLogo {
   src: string;
   name: string;
 }
+
+export interface HeroSlide {
+  tag: string;
+  title: string;
+  highlight: string;
+  description: string;
+  image: string;
+}
+
+export interface Testimonial {
+  quote: string;
+  role: string;
+  location: string;
+}
