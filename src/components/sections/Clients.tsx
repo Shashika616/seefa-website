@@ -5,9 +5,6 @@ import Image from "next/image";
 
 const SECTORS = ["Retail", "Manufacturing", "Government", "Education", "Hospitality", "Logistics", "Healthcare", "Finance"];
 
-/* Scans /public/images/clients at build time.
-   "acme-pvt-ltd.png" → shows as "Acme Pvt Ltd".
-   Drop a file in the folder → it appears after the next deploy. */
 function getClientLogos() {
   try {
     const dir = path.join(process.cwd(), "public", "images", "clients");
@@ -48,21 +45,22 @@ export default function Clients() {
             {logos.map((logo) => (
               <div
                 key={logo.name}
-                className="bg-white rounded-2xl border border-slate-900/5 p-6 flex flex-col items-center justify-center gap-3 grayscale hover:grayscale-0 transition-all hover:shadow-lg"
+                className="group bg-white rounded-2xl border border-slate-900/5 p-6 flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:border-slate-900/10 transition-all duration-300"
               >
                 <Image
                   src={logo.src}
                   alt={logo.name}
                   width={160}
                   height={64}
-                  className="h-12 w-auto object-contain"
+                  className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
                 />
-                <span className="text-xs font-semibold text-slate-500">{logo.name}</span>
+                <span className="text-xs font-semibold text-slate-500 group-hover:text-ink transition-colors">
+                  {logo.name}
+                </span>
               </div>
             ))}
           </div>
         ) : (
-          /* Sector tiles until logos exist in the folder */
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {SECTORS.map((s) => (
               <div key={s} className="bg-white rounded-2xl border border-slate-900/5 p-5 flex flex-col items-center gap-2 text-slate-500">
