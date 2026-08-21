@@ -32,7 +32,7 @@ const FeaturedERP = memo(function FeaturedERP() {
           </h2>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
             Our complete ERP suite links sales, inventory, finance and production in one
-            system — so every department works from the same live data.
+            system so every department works from the same live data.
           </p>
           <ul className="grid sm:grid-cols-2 gap-3 mb-8">
             {ERP_MODULES.map((m) => (
