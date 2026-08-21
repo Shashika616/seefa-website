@@ -152,7 +152,7 @@ export default function Footer() {
               <span className="text-xs font-mono uppercase tracking-widest text-slate-500">Why Us</span>
             </div>
             <p className="text-slate-600 text-sm leading-relaxed">
-              Business-critical software you can rely on daily — scalable, accessible, and built around real end-users.
+              Business-critical software you can rely on daily scalable, accessible, and built around real end-users.
             </p>
             <ul className="mt-4 space-y-1.5 text-sm text-slate-500">
               <li className="flex items-center gap-2">

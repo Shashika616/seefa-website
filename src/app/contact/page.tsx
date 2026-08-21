@@ -13,7 +13,7 @@ export default function ContactPage() {
           <div className="text-center mb-12">
             <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Contact Us</p>
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4">
-              Let&apos;s <span className="text-gradient">talk</span>
+              Let&apos;s <span className="text-gradient">Discuss</span>
             </h1>
             <p className="text-slate-600 text-lg">
               Ready to transform your business with better software? We&apos;re here to help.
