@@ -13,7 +13,7 @@ export const STATS = [
 
 export const ERP_MODULES = ["Purchase", "Sales / Distribution", "Inventory / Warehouse", "Financial Accounting", "Production", "Service Management", "Analysis Reports"];
 
-export const TECH_STACK = ["React", "Node.js", "SQL", "Azure", "Docker", "Next.js"];
+export const TECH_STACK = ["VB.NET", "C#", "ASP.NET", "React", "Node.js", "SQL", "Azure", "Docker", "Next.js"];
 
 export const WHY_US = [
   "25+ years of software development experience",
