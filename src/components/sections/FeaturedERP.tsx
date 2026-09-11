@@ -1,6 +1,6 @@
 "use client";
 import { memo, useCallback, useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { CheckCircle2, ArrowUpRight } from "lucide-react";
 import { ERP_MODULES, TECH_STACK, ERP_FEATURED_IMAGES } from "@/lib/constants";
@@ -22,6 +22,7 @@ const FeaturedERP = memo(function FeaturedERP() {
   }, [paginate, prefersReducedMotion, index]);
 
   return (
+    <MotionConfig reducedMotion="user">
     <section aria-label="Featured ERP solution" className="relative py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-center">
         {/* Left: copy */}
@@ -42,7 +43,7 @@ const FeaturedERP = memo(function FeaturedERP() {
             ))}
           </ul>
           <div className="flex flex-col gap-4">
-            <a href="#contact" className="inline-flex items-center justify-center gap-2 w-fit bg-brand-orange text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange">
+            <a href="#contact" className="inline-flex items-center justify-center gap-2 w-fit bg-brand-orange text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-500 transition-colors">
               Request a Demo <ArrowUpRight size={16} />
             </a>
             <p className="text-xs text-slate-500">
@@ -57,9 +58,9 @@ const FeaturedERP = memo(function FeaturedERP() {
             <motion.div
               key={index}
               className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0, scale: 1.04, x: direction * 24 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction * -24 }}
               transition={{ duration: 0.9, ease: "easeOut" }}
             >
               <Image
@@ -86,9 +87,11 @@ const FeaturedERP = memo(function FeaturedERP() {
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
             {ERP_FEATURED_IMAGES.map((_, i) => (
               <button
+                type="button"
                 key={i}
                 onClick={() => setState([i, i > index ? 1 : -1])}
                 aria-label={`View slide ${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300",
                   i === index ? "w-8 bg-white" : "w-1.5 bg-white/60 hover:bg-white/80"
@@ -99,6 +102,7 @@ const FeaturedERP = memo(function FeaturedERP() {
         </div>
       </div>
     </section>
+    </MotionConfig>
   );
 });
 

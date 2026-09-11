@@ -12,7 +12,6 @@ type CardRef = { current: HTMLDivElement | null };
 
 interface ServiceCardProps {
   service: Service;
-  index: number;
   isLast: boolean;
   isMobile: boolean;
   nextRef: CardRef;
@@ -20,7 +19,7 @@ interface ServiceCardProps {
 }
 
 const ServiceCard = memo(function ServiceCard({
-  service, index, isLast, isMobile, nextRef, setRef,
+  service, isLast, isMobile, nextRef, setRef,
 }: ServiceCardProps) {
   const Icon = iconMap[service.icon];
 
@@ -63,7 +62,7 @@ const ServiceCard = memo(function ServiceCard({
         </div>
 
         <div className="relative z-10 flex justify-between items-end">
-          <button className="flex items-center gap-2 text-slate-500 hover:text-ink transition-colors font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-purple rounded">
+          <button className="flex items-center gap-2 text-slate-500 hover:text-ink transition-colors font-medium text-sm sm:text-base rounded">
             Learn more <span aria-hidden>→</span>
           </button>
           <span className="text-xs sm:text-sm text-slate-400 hidden md:block">
@@ -87,9 +86,9 @@ const Services = memo(function Services() {
           <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
             Custom Development
           </p>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
             Need something <span className="text-gradient">beyond off-the-shelf</span>?
-          </h2>
+          </h1>
           <p className="text-slate-600 max-w-2xl text-base sm:text-lg leading-relaxed">
             The same team behind our products designs and builds custom web, mobile and
             enterprise software tailored to the way you work.
@@ -102,7 +101,6 @@ const Services = memo(function Services() {
         <ServiceCard
           key={s.id}
           service={s}
-          index={i}
           isLast={i === SERVICES.length - 1}
           isMobile={isMobile}
           nextRef={refs[Math.min(i + 1, SERVICES.length - 1)]}

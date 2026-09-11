@@ -1,5 +1,7 @@
-import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { ROUTES, SITE } from "@/lib/site";
 
 // Brand icon components with SVG paths
 const LinkedInIcon = ({ className }: { className?: string }) => (
@@ -61,7 +63,7 @@ export default function Footer() {
         </p>
 
         {/* Email CTA */}
-        <a href="mailto:info@Seefalk.com" className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange mb-16">
+        <a href="mailto:info@Seefalk.com" className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors mb-16">
           info@Seefalk.com <ArrowUpRight size={18} />
         </a>
 
@@ -78,10 +80,12 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="group flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-purple rounded-lg p-2"
+                  target="_blank"
+                  rel="noopener noreferrer me"
+                  className="group flex flex-col items-center gap-2 rounded-lg p-2"
                 >
                   <div className={`w-11 h-11 rounded-full border border-slate-900/15 bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:text-white hover:shadow-lg ${social.hoverColor} text-slate-600`}>
-                    <Icon className="w-5 h-5 transition-colors duration-300" />
+                    <Icon className="w-5 h-5 transition-colors duration-300" aria-hidden />
                   </div>
                   <span className="text-xs text-slate-500 font-medium group-hover:text-ink transition-colors">
                     {social.label}
@@ -148,7 +152,7 @@ export default function Footer() {
           {/* Why Choose Us */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <MapPin size={14} className="text-brand-green" />
+              <ShieldCheck size={14} className="text-brand-green" />
               <span className="text-xs font-mono uppercase tracking-widest text-slate-500">Why Us</span>
             </div>
             <p className="text-slate-600 text-sm leading-relaxed">
@@ -172,8 +176,15 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="relative border-t border-slate-900/5">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 text-center text-sm text-slate-500">
-          <span>© 2026 Seefa Business Solutions. All rights reserved.</span>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+          <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
+          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+            {ROUTES.filter((r) => r.path !== "/").map((r) => (
+              <Link key={r.path} href={r.path} className="capitalize hover:text-ink transition-colors">
+                {r.path.slice(1)}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

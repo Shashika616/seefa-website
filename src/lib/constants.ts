@@ -93,9 +93,9 @@ export const HERO_SLIDES: HeroSlide[] = [
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    quote: "Their POS and inventory system runs our entire chain. Downtime is practically zero, and support answers before we finish calling.",
+    quote: "Their Restaurant and inventory systems runs our entire chain. Downtime is practically zero, and support answers before we finish calling.",
     role: "Managing Director, Retail Chain",
-    location: "Colombo",
+    location: "Anuradhapura",
   },
   {
     quote: "The ERP implementation paid for itself within the first year. Our accounts close in days now, not weeks.",

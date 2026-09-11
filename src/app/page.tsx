@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative">
+    <main id="main" className="relative">
       <Hero />
       <TrustBar />
       <LogoMarquee />

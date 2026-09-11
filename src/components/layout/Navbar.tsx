@@ -1,5 +1,5 @@
 "use client";
-import { useState, memo } from "react";
+import { useCallback, useEffect, useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +19,23 @@ const NAV_LINKS = [
 const Navbar = memo(function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const close = useCallback(() => setOpen(false), []);
+
+  // Close the mobile menu whenever the route changes
+  useEffect(() => { close(); }, [pathname, close]);
+
+  // While the mobile menu is open: lock body scroll and allow Escape to dismiss
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, close]);
 
   const Logo = (
     <Link href="/" className="flex items-center gap-2" aria-label="Seefa Business Solutions home">
@@ -35,6 +52,7 @@ const Navbar = memo(function Navbar() {
 
   return (
     <motion.nav
+      aria-label="Primary"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -56,8 +74,9 @@ const Navbar = memo(function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "px-4 py-2 rounded-full text-[15px] font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-purple",
+                  "px-4 py-2 rounded-full text-[15px] font-semibold transition-colors",
                   isActive
                     ? "bg-ink text-white shadow-sm"
                     : "text-slate-800 hover:bg-slate-900/5 hover:text-ink"
@@ -72,15 +91,16 @@ const Navbar = memo(function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/client-login"
-            className="hidden md:inline-flex bg-orange-400 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-orange-500 transition-colors items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="hidden md:inline-flex bg-orange-400 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-orange-500 transition-colors items-center gap-2"
           >
             <Lock size={14} /> Client Login
           </Link>
           <button
             onClick={() => setOpen((v) => !v)}
-            className="md:hidden p-2 hover:bg-slate-900/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            className="md:hidden p-2 hover:bg-slate-900/5 rounded-lg"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="mobile-menu"
           >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -95,6 +115,7 @@ const Navbar = memo(function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
+            id="mobile-menu"
             className="md:hidden bg-white border-t border-slate-900/5 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-2">
@@ -104,7 +125,8 @@ const Navbar = memo(function Navbar() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={close}
                     className={cn(
                       "block text-lg font-semibold py-2.5 px-3 rounded-xl transition-colors",
                       isActive
@@ -118,7 +140,7 @@ const Navbar = memo(function Navbar() {
               })}
               <Link
                 href="/client-login"
-                onClick={() => setOpen(false)}
+                onClick={close}
                 className="w-full bg-orange-400 text-white font-semibold px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors mt-4"
               >
                 <Lock size={16} /> Client Login

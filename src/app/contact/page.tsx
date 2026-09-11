@@ -1,13 +1,15 @@
+import type { Metadata } from "next";
 import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 
-export const metadata = {
-  title: "Contact | Seefa Business Solutions",
+export const metadata: Metadata = {
+  title: "Contact",
+  alternates: { canonical: "/contact" },
   description: "Get in touch with Seefa Business Solutions — request a demo or discuss your project.",
 };
 
 export default function ContactPage() {
   return (
-    <main className="relative pt-24 md:pt-32">
+    <main id="main" className="relative pt-24 md:pt-32">
       <section className="py-20 md:py-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
@@ -56,7 +58,7 @@ export default function ContactPage() {
           <div className="text-center">
             <a
               href="mailto:info@Seefalk.com?subject=Demo%20Request"
-              className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange"
+              className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors"
             >
               Request a Demo <ArrowUpRight size={18} />
             </a>

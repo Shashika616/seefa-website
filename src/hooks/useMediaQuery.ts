@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
+/**
+ * Subscribes to a media query without setState-in-effect cascades.
+ * Returns false during SSR so the server and first client render agree.
+ */
 export function useMediaQuery(query: string): boolean {
-  // Correct initialization — no first-frame flash
-  const [matches, setMatches] = useState(() =>
-    typeof window !== "undefined" ? window.matchMedia(query).matches : false
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      const media = window.matchMedia(query);
+      media.addEventListener("change", onStoreChange);
+      return () => media.removeEventListener("change", onStoreChange);
+    },
+    [query]
   );
 
-  useEffect(() => {
-    const media = window.matchMedia(query);
-    setMatches(media.matches);
-    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
-  }, [query]);
+  const getSnapshot = useCallback(() => window.matchMedia(query).matches, [query]);
+  const getServerSnapshot = () => false;
 
-  return matches;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

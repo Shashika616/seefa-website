@@ -5,6 +5,7 @@ import { WHY_US } from "@/lib/constants";
 
 export default function About() {
   return (
+    <section className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -13,9 +14,9 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">About Us</p>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-6">
             A partner, not just a <span className="text-gradient">provider</span>.
-          </h2>
+          </h1>
           <div className="space-y-4 text-slate-600 text-base sm:text-lg leading-relaxed">
             <p>
               <span className="font-semibold text-ink">Seefa Business Solutions</span> has been one of
@@ -51,5 +52,6 @@ export default function About() {
           </ul>
         </motion.div>
       </div>
+    </section>
   );
 }

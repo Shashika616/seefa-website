@@ -8,12 +8,13 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function Industries() {
   return (
+    <section className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="max-w-2xl mb-12">
           <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Industries</p>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
             Solutions for <span className="text-gradient">your industry</span>.
-          </h2>
+          </h1>
           <p className="text-slate-600 text-base sm:text-lg">If your business runs on it, we&apos;ve built software for it.</p>
         </div>
 
@@ -36,5 +37,6 @@ export default function Industries() {
           })}
         </div>
       </div>
+    </section>
   );
 }

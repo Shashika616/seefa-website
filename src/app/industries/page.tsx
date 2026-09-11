@@ -1,13 +1,15 @@
+import type { Metadata } from "next";
 import Industries from "@/components/sections/Industries";
 
-export const metadata = {
-  title: "Industries | Seefa Business Solutions",
+export const metadata: Metadata = {
+  title: "Industries",
   description: "Software solutions for retail, manufacturing, restaurants, education, workshops, travel and more.",
+  alternates: { canonical: "/industries" },
 };
 
 export default function IndustriesPage() {
   return (
-    <main className="relative pt-24 md:pt-32">
+    <main id="main" className="relative pt-24 md:pt-32">
       <Industries />
     </main>
   );

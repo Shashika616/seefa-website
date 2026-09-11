@@ -1,0 +1,37 @@
+# Dependencies and build output are produced inside the image
+node_modules
+.next
+out
+build
+coverage
+
+# VCS and tooling
+.git
+.gitignore
+.github
+.vscode
+.idea
+.qwen
+
+# Local env and secrets (pass NEXT_PUBLIC_SITE_URL as a build arg instead)
+.env
+.env.*
+*.pem
+
+# Logs and caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.tsbuildinfo
+
+# Docs and container files
+Dockerfile
+.dockerignore
+README.md
+AGENTS.md
+CLAUDE.md
+
+# OS noise
+.DS_Store
+Thumbs.db

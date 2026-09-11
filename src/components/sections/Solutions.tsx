@@ -81,7 +81,7 @@ const SolutionCard = memo(function SolutionCard({ solution, index }: { solution:
       <div className="relative z-10 mt-auto">
         <a
           href="#contact"
-          className="group/btn inline-flex items-center gap-1.5 self-start px-4 py-2 rounded-full border border-slate-900/15 bg-white text-sm font-semibold text-slate-700 hover:bg-ink hover:text-white hover:border-ink focus:outline-none focus:ring-2 focus:ring-brand-purple transition-colors"
+          className="group/btn inline-flex items-center gap-1.5 self-start px-4 py-2 rounded-full border border-slate-900/15 bg-white text-sm font-semibold text-slate-700 hover:bg-ink hover:text-white hover:border-ink transition-colors"
           aria-label={`Request ${solution.title}`}
         >
           Request solution
@@ -143,12 +143,13 @@ const Solutions = memo(function Solutions() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-10">
             <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Our Solutions</p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
               One company. <span className="text-gradient">Complete business solutions</span>.
-            </h2>
+            </h1>
             <p className="text-slate-600">
               Ready-made systems running real businesses today. Pick a ready-made solution or ask us to build yours.
             </p>
@@ -162,7 +163,7 @@ const Solutions = memo(function Solutions() {
                 role="tab"
                 aria-selected={active === cat}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-purple",
+                  "px-4 py-2 rounded-full text-sm font-medium transition-colors",
                   active === cat
                     ? "bg-ink text-white"
                     : "bg-white border border-slate-900/10 text-slate-600 hover:border-slate-900/25"
@@ -176,7 +177,7 @@ const Solutions = memo(function Solutions() {
           {/* No AnimatePresence, no layout projection — skeletons + staggered fade only */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" aria-busy={!ready}>
             {!ready
-              ? filtered.map((s: Solution, i: number) => (
+              ? filtered.map((s: Solution) => (
                   <SkeletonCard key={`sk-${s.id}`} wide={s.badge === "FEATURED"} />
                 ))
               : filtered.map((s: Solution, i: number) => (
@@ -193,6 +194,7 @@ const Solutions = memo(function Solutions() {
             </a>
           </div>
         </div>
+      </section>
     </MotionConfig>
   );
 });
