@@ -143,7 +143,7 @@ const Solutions = memo(function Solutions() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="py-16 md:py-24">
+      <section>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mb-10">
             <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Our Solutions</p>

@@ -115,13 +115,6 @@
   color: var(--color-ink);
 }
 
-/* Anchor scrolling clears the fixed navbar */
-:where(html) { scroll-padding-top: 6rem; }
-
-/* Balanced headline wrapping, no orphan words in large type */
-:where(h1, h2, h3) { text-wrap: balance; }
-:where(p) { text-wrap: pretty; }
-
 /* Marquee/carousel motion stops for reduced-motion users */
 @media (prefers-reduced-motion: reduce) {
   .skeleton::after { animation: none; }

@@ -66,7 +66,7 @@ const Hero = memo(function Hero() {
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-16">
         <div
-          className="max-w-2xl min-h-[320px] sm:min-h-[360px]"
+          className="max-w-2xl min-h-[280px] sm:min-h-[320px]"
           aria-live="polite"
           aria-atomic="true"
         >

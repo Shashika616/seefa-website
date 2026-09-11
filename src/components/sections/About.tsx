@@ -5,7 +5,7 @@ import { WHY_US } from "@/lib/constants";
 
 export default function About() {
   return (
-    <section className="py-16 md:py-24">
+    <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

@@ -6,7 +6,7 @@ export const PRODUCT_CHIPS = ["ERP", "POS", "Payroll", "Inventory", "Accounting"
 
 export const STATS = [
   { value: "25+", label: "Years of Excellence" },
-  { value: "100+", label: "Clients Served" },
+  { value: "50+", label: "Clients Served" },
   { value: "100+", label: "Projects Delivered" },
   { value: "1999", label: "Serving Sri Lanka Since" },
 ];

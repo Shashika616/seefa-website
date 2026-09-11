@@ -3,7 +3,7 @@ import TrustBar from "@/components/sections/TrustBar";
 import LogoMarquee from "@/components/sections/LogoMarquee";
 import StatementBand from "@/components/sections/StatementBand";
 import FeaturedERP from "@/components/sections/FeaturedERP";
-import Testimonials from "@/components/sections/Testimonials";
+// import Testimonials from "@/components/sections/Testimonials"; // hidden until client feedback is collected
 import Clients from "@/components/sections/Clients";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ export default function Home() {
       <LogoMarquee />
       <FeaturedERP />
       <StatementBand />
-      <Testimonials />
+      {/* <Testimonials /> hidden for now, re-enable once real client feedback is ready */}
       <Clients />
 
       {/* Explore more */}
