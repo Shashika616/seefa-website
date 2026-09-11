@@ -20,7 +20,9 @@ RUN npm ci
 # --- 2. builder: compile the Next.js app ------------------------------------
 FROM node:${NODE_VERSION} AS builder
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1
+# DOCKER_BUILD switches next.config.ts to output: "standalone" for this image only.
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    DOCKER_BUILD=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Baked into the client bundle at build time, so it must be present here.

@@ -12,7 +12,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   // Emits .next/standalone so the Docker image ships without node_modules.
-  output: "standalone",
+  // Only for the Docker build: Vercel does its own tracing and fails with it set.
+  output: process.env.DOCKER_BUILD === "1" ? "standalone" : undefined,
   poweredByHeader: false,
   compress: true,
   images: {
