@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { RotateCcw } from "lucide-react";
+import { SITE } from "@/lib/site";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
@@ -17,8 +18,8 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           </h1>
           <p className="text-slate-600 text-lg max-w-xl mx-auto mb-10">
             Try again in a moment. If it keeps happening, email us at{" "}
-            <a href="mailto:info@Seefalk.com" className="text-ink font-semibold hover:underline">
-              info@Seefalk.com
+            <a href={`mailto:${SITE.email}`} className="text-ink font-semibold hover:underline">
+              {SITE.email}
             </a>
             .
           </p>

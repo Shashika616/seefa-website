@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact | Seefa Business Solutions",
+    description: "Get in touch with Seefa Business Solutions — request a demo or discuss your project.",
+    url: "/contact",
+    siteName: "Seefa Business Solutions",
+    locale: "en_LK",
+    type: "website",
+  },
   description: "Get in touch with Seefa Business Solutions — request a demo or discuss your project.",
 };
 
@@ -57,13 +66,13 @@ export default function ContactPage() {
 
           <div className="text-center">
             <a
-              href="mailto:info@Seefalk.com?subject=Demo%20Request"
+              href={`mailto:${SITE.email}?subject=Demo%20Request`}
               className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors"
             >
               Request a Demo <ArrowUpRight size={18} />
             </a>
             <p className="mt-6 text-sm text-slate-500">
-              Or email us directly at <a href="mailto:info@Seefalk.com" className="text-ink font-semibold hover:underline">info@Seefalk.com</a>
+              Or email us directly at <a href={`mailto:${SITE.email}`} className="text-ink font-semibold hover:underline">{SITE.email}</a>
             </p>
           </div>
         </div>

@@ -26,14 +26,18 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Baked into the client bundle at build time, so it must be present here.
-ARG NEXT_PUBLIC_SITE_URL=https://www.seefalk.com
-ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+ARG NEXT_PUBLIC_SITE_URL=https://seefabs.com
+ARG GOOGLE_SITE_VERIFICATION=
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL} \
+    GOOGLE_SITE_VERIFICATION=${GOOGLE_SITE_VERIFICATION}
 RUN npm run build
 
 # --- 3. runner: minimal runtime ---------------------------------------------
 FROM node:${NODE_VERSION} AS runner
 WORKDIR /app
 
+# CLIENT_PORTAL_URL is read per request by /client-login/portal, so set it on the
+# running container (Coolify: Environment Variables) and restart. No rebuild needed.
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \

@@ -42,8 +42,8 @@ const Navbar = memo(function Navbar() {
       <Image
         src="/images/seefa-logo.png"
         alt="Seefa Business Solutions"
-        width={140}
-        height={40}
+        width={254}
+        height={103}
         priority
         className="h-8 w-auto object-contain"
       />

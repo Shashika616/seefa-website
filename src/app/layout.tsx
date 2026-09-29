@@ -30,8 +30,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: { card: "summary_large_image", title: SITE.name, description: SITE.description },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
-  icons: { icon: "/favicon.ico" },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
@@ -41,23 +43,79 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-const organizationJsonLd = {
+// One @graph so Organization, the local business listing and the site itself
+// are linked by @id rather than competing as three unrelated entities.
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.name,
-  url: SITE.url,
-  logo: `${SITE.url}/images/seefa-logo.png`,
-  description: SITE.description,
-  foundingDate: SITE.founded,
-  email: SITE.email,
-  telephone: SITE.phones[0],
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: SITE.address.street,
-    addressLocality: SITE.address.locality,
-    addressCountry: SITE.address.country,
-  },
-  areaServed: "LK",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE.url}/#organization`,
+      name: SITE.name,
+      alternateName: SITE.shortName,
+      url: SITE.url,
+      logo: {
+        "@type": "ImageObject",
+        "@id": `${SITE.url}/#logo`,
+        url: `${SITE.url}/images/seefa-logo.png`,
+        width: 254,
+        height: 103,
+      },
+      image: { "@id": `${SITE.url}/#logo` },
+      description: SITE.description,
+      foundingDate: SITE.founded,
+      email: SITE.email,
+      telephone: SITE.phones[0],
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: SITE.address.street,
+        addressLocality: SITE.address.locality,
+        addressCountry: SITE.address.country,
+      },
+      areaServed: { "@type": "Country", name: "Sri Lanka" },
+      knowsAbout: [
+        "Enterprise Resource Planning",
+        "Point of Sale systems",
+        "Payroll and EPF/ETF processing",
+        "Inventory management",
+        "Custom software development",
+      ],
+    },
+    {
+      // Local search relies on this type far more than plain Organization.
+      "@type": "ProfessionalService",
+      "@id": `${SITE.url}/#business`,
+      name: SITE.name,
+      parentOrganization: { "@id": `${SITE.url}/#organization` },
+      url: SITE.url,
+      image: { "@id": `${SITE.url}/#logo` },
+      priceRange: "$$",
+      telephone: SITE.phones[0],
+      email: SITE.email,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: SITE.address.street,
+        addressLocality: SITE.address.locality,
+        addressCountry: SITE.address.country,
+      },
+      areaServed: { "@type": "Country", name: "Sri Lanka" },
+      serviceType: [
+        "ERP software",
+        "POS software",
+        "Payroll software",
+        "Custom software development",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}/#website`,
+      url: SITE.url,
+      name: SITE.name,
+      description: SITE.description,
+      publisher: { "@id": `${SITE.url}/#organization` },
+      inLanguage: "en",
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -73,7 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </body>
     </html>

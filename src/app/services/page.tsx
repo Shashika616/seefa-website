@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "Services",
   description: "Custom web, mobile, and enterprise software development services tailored to your business.",
   alternates: { canonical: "/services" },
+  openGraph: {
+    title: "Services | Seefa Business Solutions",
+    description: "Custom web, mobile, and enterprise software development services tailored to your business.",
+    url: "/services",
+    siteName: "Seefa Business Solutions",
+    locale: "en_LK",
+    type: "website",
+  },
 };
 
 export default function ServicesPage() {

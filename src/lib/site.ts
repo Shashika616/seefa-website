@@ -5,10 +5,10 @@
 export const SITE = {
   name: "Seefa Business Solutions",
   shortName: "Seefa",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.seefalk.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://seefabs.com",
   description:
     "Business software built around your business since 1999. ERP, POS, payroll, inventory and industry-specific solutions, developed and supported in Sri Lanka.",
-  email: "info@Seefalk.com",
+  email: "info@seefabs.com",
   phones: ["+94773247216", "+94113042141"],
   address: {
     street: "No-38, Obahena Road",
@@ -17,6 +17,12 @@ export const SITE = {
   },
   founded: "1999",
 } as const;
+
+/**
+ * Fallback for the external client portal, used when CLIENT_PORTAL_URL is unset.
+ * The live value is read per request in src/app/client-login/portal/route.ts.
+ */
+export const PORTAL_FALLBACK_URL = "http://eauwp2pl11szzlimj7q7gu91.169.58.169.162.sslip.io/";
 
 /** Routes included in the sitemap, in navigation order. */
 export const ROUTES = [

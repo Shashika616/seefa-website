@@ -13,7 +13,8 @@ coverage
 .idea
 .qwen
 
-# Local env and secrets (pass NEXT_PUBLIC_SITE_URL as a build arg instead)
+# Local env and secrets. NEXT_PUBLIC_SITE_URL is a build arg;
+# CLIENT_PORTAL_URL is read at runtime from the container environment.
 .env
 .env.*
 *.pem

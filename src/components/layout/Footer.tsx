@@ -63,8 +63,8 @@ export default function Footer() {
         </p>
 
         {/* Email CTA */}
-        <a href="mailto:info@Seefalk.com" className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors mb-16">
-          info@Seefalk.com <ArrowUpRight size={18} />
+        <a href={`mailto:${SITE.email}`} className="inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-8 py-4 rounded-full hover:bg-orange-500 transition-colors mb-16">
+          {SITE.email} <ArrowUpRight size={18} />
         </a>
 
         {/* Social links with icons and labels */}
@@ -107,8 +107,8 @@ export default function Footer() {
               <Image
                 src="/images/seefa-logo.png"
                 alt="Seefa Business Solutions"
-                width={140}
-                height={40}
+                width={254}
+                height={103}
                 className="h-10 w-auto object-contain"
               />
             </div>
@@ -143,8 +143,8 @@ export default function Footer() {
               <a href="tel:+94113042141" className="block text-slate-600 hover:text-ink transition-colors">
                 +94 (011) 304 2141
               </a>
-              <a href="mailto:info@Seefalk.com" className="block text-slate-600 hover:text-ink transition-colors">
-                info@Seefalk.com
+              <a href={`mailto:${SITE.email}`} className="block text-slate-600 hover:text-ink transition-colors">
+                {SITE.email}
               </a>
             </div>
           </div>

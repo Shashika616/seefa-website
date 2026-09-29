@@ -65,7 +65,7 @@ const FeaturedERP = memo(function FeaturedERP() {
             >
               <Image
                 src={ERP_FEATURED_IMAGES[index]}
-                alt={`SEEFALK ERP showcase ${index + 1}`}
+                alt={`Seefa ERP showcase ${index + 1}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority={index === 0}

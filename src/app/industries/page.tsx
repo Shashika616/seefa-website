@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "Industries",
   description: "Software solutions for retail, manufacturing, restaurants, education, workshops, travel and more.",
   alternates: { canonical: "/industries" },
+  openGraph: {
+    title: "Industries | Seefa Business Solutions",
+    description: "Software solutions for retail, manufacturing, restaurants, education, workshops, travel and more.",
+    url: "/industries",
+    siteName: "Seefa Business Solutions",
+    locale: "en_LK",
+    type: "website",
+  },
 };
 
 export default function IndustriesPage() {
