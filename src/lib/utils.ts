@@ -12,3 +12,12 @@ export function debounce<T extends (...args: never[]) => void>(func: T, wait: nu
     timeout = setTimeout(() => func(...args), wait);
   };
 }
+
+/** "Retail & POS" -> "retail-pos", for stable in-page anchors. */
+export function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/&/g, " ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
