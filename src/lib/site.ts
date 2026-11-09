@@ -7,7 +7,7 @@ export const SITE = {
   shortName: "Seefa",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://seefabs.com",
   description:
-    "Business software built around your business since 1999. ERP, POS, payroll, inventory and industry-specific solutions, developed and supported in Sri Lanka.",
+    "Business software built around your business since 1999. ERP, POS, payroll, inventory and industry solutions, developed and supported in Sri Lanka.",
   email: "info@seefabs.com",
   phones: ["+94773247216", "+94113042141"],
   address: {
