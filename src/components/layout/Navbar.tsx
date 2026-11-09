@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,6 +20,11 @@ const Navbar = memo(function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const close = useCallback(() => setOpen(false), []);
+
+  // Gains depth once the page scrolls; state only changes when crossing the threshold.
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 24));
 
   // Close the mobile menu whenever the route changes
   useEffect(() => { close(); }, [pathname, close]);
@@ -51,7 +56,7 @@ const Navbar = memo(function Navbar() {
   );
 
   return (
-    <motion.nav
+    <m.nav
       aria-label="Primary"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -59,8 +64,11 @@ const Navbar = memo(function Navbar() {
       className={cn(
         "fixed top-0 md:top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-50 w-full md:w-[95%] md:max-w-5xl md:rounded-full",
         "bg-white border-b border-slate-900/5",
-        "md:border-b-0 md:bg-white/70 md:backdrop-blur-xl",
-        "shadow-lg shadow-slate-900/5"
+        // No backdrop-blur: it re-blurs the moving hero globe behind the bar every frame.
+        "md:border-b-0 transition-[background-color,box-shadow] duration-500",
+        scrolled
+          ? "md:bg-white/[0.97] shadow-xl shadow-slate-900/10"
+          : "md:bg-white/[0.93] shadow-lg shadow-slate-900/5"
       )}
     >
       <div className="flex items-center justify-between px-4 md:px-6 py-4 md:py-3">
@@ -110,7 +118,7 @@ const Navbar = memo(function Navbar() {
       {/* Mobile dropdown */}
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -146,10 +154,10 @@ const Navbar = memo(function Navbar() {
                 <Lock size={16} /> Client Login
               </Link>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </m.nav>
   );
 });
 

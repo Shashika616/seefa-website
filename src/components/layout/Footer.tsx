@@ -2,6 +2,7 @@ import { ArrowUpRight, MapPin, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ROUTES, SITE } from "@/lib/site";
+import FooterReveal from "@/components/layout/FooterReveal";
 
 // Brand icon components with SVG paths
 const LinkedInIcon = ({ className }: { className?: string }) => (
@@ -45,16 +46,14 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer id="contact" className="relative mt-24 border-t border-slate-900/5 overflow-hidden">
+    <footer id="contact" className="relative z-0 bg-[#F3F1F8]">
+      <FooterReveal>
       {/* Soft brand blobs */}
       <div aria-hidden className="absolute -top-[30%] left-[10%] w-[40rem] h-[40rem] gpu bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.10),transparent_60%)]" />
       <div aria-hidden className="absolute -bottom-[30%] right-[10%] w-[40rem] h-[40rem] gpu bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.10),transparent_60%)]" />
 
       {/* Top CTA */}
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-20 md:py-28 text-center">
-        <p className="text-xs text-slate-500 mb-4 font-mono uppercase tracking-widest">
-          Get in Touch
-        </p>
         <h2 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-4">
           Take your <span className="text-gradient">right decision</span>.
         </h2>
@@ -69,9 +68,6 @@ export default function Footer() {
 
         {/* Social links with icons and labels */}
         <div className="flex flex-col items-center gap-4">
-          <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">
-            Follow us
-          </p>
           <div className="flex items-center gap-6">
             {SOCIAL_LINKS.map((social) => {
               const Icon = social.icon;
@@ -121,7 +117,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <MapPin size={14} className="text-brand-purple" />
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-500">Location</span>
+              <h3 className="text-sm font-semibold text-ink">Location</h3>
             </div>
             <address className="not-italic text-slate-600 text-sm leading-relaxed">
               No-38, Obahena Road,<br />
@@ -134,7 +130,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Phone size={14} className="text-brand-blue" />
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-500">Contact</span>
+              <h3 className="text-sm font-semibold text-ink">Contact</h3>
             </div>
             <div className="space-y-2 text-sm">
               <a href="tel:+94773247216" className="block text-slate-600 hover:text-ink transition-colors">
@@ -153,7 +149,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <ShieldCheck size={14} className="text-brand-green" />
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-500">Why Us</span>
+              <h3 className="text-sm font-semibold text-ink">Why us</h3>
             </div>
             <p className="text-slate-600 text-sm leading-relaxed">
               Business-critical software you can rely on daily scalable, accessible, and built around real end-users.
@@ -187,6 +183,7 @@ export default function Footer() {
           </nav>
         </div>
       </div>
+      </FooterReveal>
     </footer>
   );
 }

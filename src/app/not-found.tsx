@@ -7,7 +7,6 @@ export default function NotFound() {
     <main id="main" className="relative pt-24 md:pt-32">
       <section className="py-20 md:py-32">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Error 404</p>
           <h1 className="text-5xl sm:text-7xl font-bold mb-4">
             Page <span className="text-gradient">not found</span>.
           </h1>
@@ -27,7 +26,7 @@ export default function NotFound() {
               <Link
                 key={r.path}
                 href={r.path}
-                className="glass px-4 py-2 rounded-full text-sm font-semibold text-slate-700 hover:bg-white transition-colors capitalize"
+                className="px-3 py-1 text-sm font-semibold text-slate-600 capitalize underline-offset-4 transition-colors hover:text-ink hover:underline"
               >
                 {r.path.slice(1)}
               </Link>

@@ -12,7 +12,6 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
     <main id="main" className="relative pt-24 md:pt-32">
       <section className="py-20 md:py-32">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Something went wrong</p>
           <h1 className="text-4xl sm:text-6xl font-bold mb-4">
             We hit an <span className="text-gradient">unexpected error</span>.
           </h1>

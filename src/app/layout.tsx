@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/layout/SmoothScroll";
+import MotionProvider from "@/components/providers/MotionProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import IntroSplash, { INTRO_SCRIPT } from "@/components/layout/IntroSplash";
 import { SITE } from "@/lib/site";
+import JsonLd from "@/components/ui/JsonLd";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -12,8 +14,9 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-displ
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} | ERP, POS & Business Software in Sri Lanka`,
-    template: `%s | ${SITE.name}`,
+    // Kept under ~60 characters so search results show it whole.
+    default: `${SITE.name} | ERP & POS Software in Sri Lanka`,
+    template: `%s | ${SITE.shortName}`,
   },
   description: SITE.description,
   applicationName: SITE.name,
@@ -120,19 +123,28 @@ const structuredData = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    // suppressHydrationWarning: INTRO_SCRIPT adds a class to <html> before React hydrates.
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
-      <body className="min-h-dvh">
+      <head>
+        {/* Must run before first paint, so it is inline rather than a deferred Script */}
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
+      </head>
+      {/* Extensions such as Grammarly inject attributes on <body> before React hydrates. This
+          only ignores attribute differences on <body> itself, never in the page content. */}
+      <body className="min-h-dvh" suppressHydrationWarning>
+        <IntroSplash />
         <a href="#main" className="skip-link">Skip to main content</a>
-        <SmoothScroll>
-          <Navbar />
-          {children}
-          <Footer />
-        </SmoothScroll>
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <MotionProvider>
+            <Navbar />
+            {/* The page sheet: rounds off and lifts away from the footer beneath it.
+                overflow-clip, not overflow-hidden, so sticky sections keep working. */}
+            <div className="relative z-10 overflow-clip rounded-b-[2rem] bg-bg shadow-[0_40px_80px_-40px_rgba(11,13,18,0.45)] md:rounded-b-[3rem]">
+              {children}
+            </div>
+            <Footer />
+        </MotionProvider>
+        {/* Escaped JSON-LD: a "</script>" in any value cannot break out of the tag */}
+        <JsonLd data={structuredData} />
       </body>
     </html>
   );
