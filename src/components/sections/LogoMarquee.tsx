@@ -1,36 +1,34 @@
-"use client";
-import { memo } from "react";
-import { motion, MotionConfig } from "framer-motion";
 import { TECH_STACK } from "@/lib/constants";
 
-const LogoMarquee = memo(function LogoMarquee() {
-  // Three copies = seamless loop (third copy replaces first invisibly)
-  const row = [...TECH_STACK, ...TECH_STACK, ...TECH_STACK];
-
+/**
+ * Infinite tech-stack ticker as a pure CSS animation. The previous Framer
+ * version ran a JavaScript loop every frame for as long as the page was open;
+ * this runs on the compositor with no script at all, and pauses on hover.
+ *
+ * The list is rendered twice and translated by exactly half its width, so the
+ * loop is seamless. The duplicate is hidden from assistive technology.
+ */
+export default function LogoMarquee() {
   return (
-    <MotionConfig reducedMotion="user">
-    <section aria-label="Technologies we work with" className="relative py-14 border-y border-slate-900/5 overflow-hidden bg-white/60">
-      <motion.div
-        className="flex w-max"
-        animate={{ x: ["0%", "-33.333%"] }}
-        transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-      >
-        {row.map((t: string, i: number) => (
-          <span
-            key={i}
-            className="mr-12 md:mr-20 text-lg md:text-2xl font-display font-semibold text-ink/20 whitespace-nowrap"
-          >
-            {t}
-          </span>
+    <section aria-label="Technologies we work with" className="marquee relative overflow-hidden border-y border-slate-900/5 bg-white/60 py-14">
+      <div className="marquee-track flex w-max">
+        {[0, 1].map((copy) => (
+          <ul key={copy} className="flex shrink-0" aria-hidden={copy === 1 || undefined}>
+            {TECH_STACK.map((t) => (
+              <li
+                key={t}
+                className="mr-12 whitespace-nowrap font-display text-lg font-semibold text-ink/20 transition-colors duration-300 hover:text-ink/60 md:mr-20 md:text-2xl"
+              >
+                {t}
+              </li>
+            ))}
+          </ul>
         ))}
-      </motion.div>
+      </div>
 
       {/* Edge fades */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-bg to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-bg to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-bg to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-bg to-transparent" />
     </section>
-    </MotionConfig>
   );
-});
-
-export default LogoMarquee;
+}

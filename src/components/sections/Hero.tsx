@@ -1,170 +1,80 @@
-"use client";
-import { memo, useCallback, useEffect, useState } from "react";
-import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion";
-import Image from "next/image";
+import type { CSSProperties } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
-import { HERO_SLIDES, PRODUCT_CHIPS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import GlobeBackdrop from "@/components/ui/GlobeBackdrop";
+import { GLOBE_PHOTOS, PRODUCT_CHIPS } from "@/lib/constants";
 
-const AUTOPLAY_MS = 6500;
+/** Stagger offset for a CSS .rise entrance. */
+const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-const Hero = memo(function Hero() {
-  const [[index, direction], setState] = useState<[number, number]>([0, 1]);
-  const [paused, setPaused] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
-
-  const paginate = useCallback((dir: number) => {
-    setState(([i]) => [(i + dir + HERO_SLIDES.length) % HERO_SLIDES.length, dir]);
-  }, []);
-
-  const goTo = useCallback((next: number) => {
-    setState(([i]) => [next, next > i ? 1 : -1]);
-  }, []);
-
-  useEffect(() => {
-    if (prefersReducedMotion || paused) return;
-    const t = setInterval(() => paginate(1), AUTOPLAY_MS);
-    return () => clearInterval(t);
-  }, [paginate, prefersReducedMotion, paused, index]);
-
-  const slide = HERO_SLIDES[index];
-
+/**
+ * Cinematic hero: a slowly turning globe of technical photography behind one
+ * confident headline and two actions.
+ *
+ * No JavaScript of its own. The entrance is CSS (.rise), the globe is CSS 3D,
+ * and the copy's fade as you scroll away is a native scroll-driven animation
+ * (.hero-copy), so all of it runs on the compositor and the headline paints
+ * before any script loads.
+ */
+export default function Hero() {
   return (
-    <MotionConfig reducedMotion="user">
-    <section
-      className="relative min-h-[92dvh] flex items-center overflow-hidden"
-      aria-roledescription="carousel"
-      aria-label="Seefa highlights"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-    >
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={index}
-          className="absolute inset-0"
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-        >
-          <Image
-            src={slide.image}
-            alt=""
-            fill
-            priority={index === 0}
-            fetchPriority={index === 0 ? "high" : "auto"}
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/90 to-bg/25" />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent" />
-        </motion.div>
-      </AnimatePresence>
+    <section className="hero-frame relative isolate flex h-svh min-h-[640px] items-end overflow-hidden bg-ink text-white">
+      <div className="absolute inset-0 -z-10">
+        <GlobeBackdrop photos={GLOBE_PHOTOS.home} />
+      </div>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-16">
-        <div
-          className="max-w-2xl min-h-[280px] sm:min-h-[320px]"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`content-${index}`}
-              initial={{ opacity: 0, x: direction * 40, y: 12 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, x: direction * -40 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+      {/* Scrims: keep the headline legible while letting the globe glow through */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-ink/45" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/70 via-ink/10 to-transparent" />
+      <div aria-hidden className="absolute -bottom-40 -left-40 -z-10 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.35),transparent_65%)]" />
+
+      <div className="relative w-full">
+        <div className="hero-copy mx-auto max-w-6xl px-4 pb-10 pt-32 sm:px-6 md:pb-14">
+          <h1 className="max-w-5xl text-[clamp(2.75rem,8vw,6.5rem)] font-bold leading-[0.95] tracking-tight">
+            <span className="rise block" style={delay(100)}>Business software</span>
+            <span className="rise block" style={delay(220)}>
+              built around <span className="text-gradient-light">your business.</span>
+            </span>
+          </h1>
+
+          <p className="rise mt-7 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg md:text-xl" style={delay(360)}>
+            ERP, POS, payroll, inventory and accounting, developed and supported in Sri Lanka for over 25 years.
+          </p>
+
+          <div className="rise mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4" style={delay(480)}>
+            <Link
+              href="/solutions"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink transition-[transform,box-shadow] duration-500 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40"
             >
-              <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-4">
-                <span className="sr-only">Slide {index + 1} of {HERO_SLIDES.length}: </span>
-                {slide.tag}
-              </p>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
-                {slide.title} <span className="text-gradient">{slide.highlight}</span>
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-xl">
-                {slide.description}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 mb-8">
-          <Link
-            href="/solutions"
-            className="bg-ink text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-black hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/15 transition-all duration-300 text-center"
-          >
-            Explore Our Solutions
-          </Link>
-          <Link
-            href="/contact"
-            className="glass text-ink font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-white hover:-translate-y-0.5 transition-all duration-300 text-center"
-          >
-            Request a Demo
-          </Link>
-        </div>
-
-        <ul className="flex flex-wrap gap-2 mb-10" aria-label="Product range">
-          {PRODUCT_CHIPS.map((chip) => (
-            <li
-              key={chip}
-              className="glass px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-slate-700"
+              Explore our solutions
+              <ArrowRight size={18} className="transition-transform duration-500 group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/contact?topic=Product%20demo#enquiry"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-7 py-4 font-semibold text-white transition-colors duration-500 hover:border-white/60 hover:bg-white/10"
             >
-              {chip}
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => paginate(-1)}
-            aria-label="Previous slide"
-            className="w-11 h-11 rounded-full glass text-slate-700 flex items-center justify-center hover:bg-white hover:text-ink transition-colors"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            type="button"
-            onClick={() => paginate(1)}
-            aria-label="Next slide"
-            className="w-11 h-11 rounded-full glass text-slate-700 flex items-center justify-center hover:bg-white hover:text-ink transition-colors"
-          >
-            <ChevronRight size={18} />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setPaused((v) => !v)}
-            aria-label={paused ? "Resume slideshow" : "Pause slideshow"}
-            className="w-11 h-11 rounded-full glass text-slate-700 flex items-center justify-center hover:bg-white hover:text-ink transition-colors"
-          >
-            {paused ? <Play size={16} /> : <Pause size={16} />}
-          </button>
-
-          <div className="flex gap-2 ml-2">
-            {HERO_SLIDES.map((s, i) => (
-              <button
-                type="button"
-                key={s.tag}
-                onClick={() => goTo(i)}
-                aria-label={`Go to slide ${i + 1}: ${s.tag}`}
-                aria-current={i === index ? "true" : undefined}
-                className={cn(
-                  "h-2 rounded-full transition-all duration-300",
-                  i === index ? "w-8 bg-ink" : "w-2 bg-slate-900/20 hover:bg-slate-900/40"
-                )}
-              />
-            ))}
+              Book a demo
+              <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
           </div>
+        </div>
+
+        {/* Product links along the foot of the hero */}
+        <div className="rise border-t border-white/10" style={delay(620)}>
+          <nav aria-label="Products" className="no-scrollbar mx-auto flex max-w-6xl gap-x-6 overflow-x-auto px-4 py-5 sm:px-6 md:gap-x-9">
+            {PRODUCT_CHIPS.map((chip) => (
+              <Link
+                key={chip}
+                href="/solutions"
+                className="shrink-0 text-sm font-medium text-white/60 transition-colors hover:text-white"
+              >
+                {chip}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </section>
-    </MotionConfig>
   );
-});
-
-export default Hero;
+}

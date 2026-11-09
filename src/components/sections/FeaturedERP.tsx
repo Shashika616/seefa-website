@@ -1,7 +1,9 @@
 "use client";
 import { memo, useCallback, useEffect, useState } from "react";
-import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion";
+import { m, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 import { CheckCircle2, ArrowUpRight } from "lucide-react";
 import { ERP_MODULES, TECH_STACK, ERP_FEATURED_IMAGES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -26,8 +28,7 @@ const FeaturedERP = memo(function FeaturedERP() {
     <section aria-label="Featured ERP solution" className="relative py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-center">
         {/* Left: copy */}
-        <div>
-          <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Featured Solution</p>
+        <Reveal>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-5">
             Everything your business needs, <span className="text-gradient">connected</span>.
           </h2>
@@ -43,19 +44,23 @@ const FeaturedERP = memo(function FeaturedERP() {
             ))}
           </ul>
           <div className="flex flex-col gap-4">
-            <a href="#contact" className="inline-flex items-center justify-center gap-2 w-fit bg-brand-orange text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-500 transition-colors">
-              Request a Demo <ArrowUpRight size={16} />
-            </a>
+            <Link
+              href={`/contact?topic=${encodeURIComponent("Complete ERP Suite")}#enquiry`}
+              className="group inline-flex items-center justify-center gap-2 w-fit bg-brand-orange text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300"
+            >
+              Request an ERP demo
+              <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
             <p className="text-xs text-slate-500">
               Built on modern, reliable technology: <span className="font-semibold text-slate-600">{TECH_STACK.join(" · ")}</span>
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {/* Right: image slider */}
         <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] rounded-3xl overflow-hidden bg-slate-100">
           <AnimatePresence initial={false}>
-            <motion.div
+            <m.div
               key={index}
               className="absolute inset-0"
               initial={{ opacity: 0, scale: 1.04, x: direction * 24 }}
@@ -64,20 +69,15 @@ const FeaturedERP = memo(function FeaturedERP() {
               transition={{ duration: 0.9, ease: "easeOut" }}
             >
               <Image
-                src={ERP_FEATURED_IMAGES[index]}
-                alt={`Seefa ERP showcase ${index + 1}`}
+                src={ERP_FEATURED_IMAGES[index].src}
+                alt={ERP_FEATURED_IMAGES[index].alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                priority={index === 0}
+                placeholder="blur"
+                blurDataURL={ERP_FEATURED_IMAGES[index].blur}
                 className="object-cover"
-                onError={(e) => {
-                  const img = e.currentTarget;
-                  if (img.src !== ERP_FEATURED_IMAGES[0]) {
-                    img.src = ERP_FEATURED_IMAGES[0];
-                  }
-                }}
               />
-            </motion.div>
+            </m.div>
           </AnimatePresence>
 
           {/* Subtle bottom gradient for dot readability */}

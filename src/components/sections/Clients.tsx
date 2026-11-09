@@ -31,7 +31,6 @@ export default function Clients() {
   return (
     <section id="clients" className="py-20 md:py-28 bg-white/60 border-t border-slate-900/5">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-        <p className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">Our Clients</p>
         <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
           Trusted across <span className="text-gradient">Sri Lanka</span>.
         </h2>
