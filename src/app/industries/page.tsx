@@ -1,24 +1,39 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Industries from "@/components/sections/Industries";
+import PageHero from "@/components/ui/PageHero";
+import JsonLd from "@/components/ui/JsonLd";
+import { INDUSTRIES, GLOBE_PHOTOS } from "@/lib/constants";
+import { serviceListSchema, webPageSchema } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "Industries",
-  description: "Software solutions for retail, manufacturing, restaurants, education, workshops, travel and more.",
-  alternates: { canonical: "/industries" },
-  openGraph: {
-    title: "Industries | Seefa Business Solutions",
-    description: "Software solutions for retail, manufacturing, restaurants, education, workshops, travel and more.",
-    url: "/industries",
-    siteName: "Seefa Business Solutions",
-    locale: "en_LK",
-    type: "website",
-  },
-};
+const TITLE = "Industry Software for Retail, Manufacturing & More";
+const DESCRIPTION =
+  "Business software for Sri Lankan retail, manufacturing, restaurants, education, workshops, travel, distribution and HR, built by Seefa since 1999.";
+
+export const metadata: Metadata = pageMetadata({ title: TITLE, description: DESCRIPTION, path: "/industries" });
 
 export default function IndustriesPage() {
   return (
-    <main id="main" className="relative pt-24 md:pt-32">
+    <main id="main" className="relative">
+      <PageHero
+        photos={GLOBE_PHOTOS.industries}
+        title={<>Software for <span className="text-gradient-light">your industry</span>.</>}
+        lede="If your business runs on it, we've built software for it. Eight industries, each with the modules it actually needs."
+        crumbs={[{ name: "Industries", path: "/industries" }]}
+      />
+
       <Industries />
+
+      <JsonLd
+        data={[
+          webPageSchema({ type: "CollectionPage", path: "/industries", name: TITLE, description: DESCRIPTION }),
+          serviceListSchema({
+            path: "/industries",
+            name: "Industries served by Seefa",
+            items: INDUSTRIES.map((i) => ({ name: `${i.name} software`, description: i.blurb })),
+          }),
+        ]}
+      />
     </main>
   );
 }
